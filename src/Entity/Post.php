@@ -34,7 +34,6 @@ class Post
     #[ORM\Id, ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups(['post:read', 'post:collection:get'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
