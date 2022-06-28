@@ -1,0 +1,17 @@
+version: '3'
+
+tasks:
+  unit:
+    desc: 'Run unit tests.'
+    cmds:
+      - '{{.PHP_BUILD}} bin/phpunit -d memory_limit=-1 --no-coverage --colors'
+
+  behat:
+    desc: 'Run behat tests.'
+    cmds:
+      - '{{.PHP_BUILD}} vendor/bin/behat --no-interaction --colors'
+
+  report:
+    desc: 'Generate tests reports.'
+    cmds:
+      - '{{.PHP_BUILD}} phpdbg -d memory_limit=-1 -qrr ./bin/phpunit --coverage-html=reports'

@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  php-fpm:
+    image: ghcr.io/syneido/dev-php8.1-fpm:latest
+    environment:
+      FPM_UID: ${FPM_UID:-83}
+      FPM_GID: ${FPM_GID:-83}
+    depends_on:
+      - database
+    volumes:
+      - ./:/var/www/
+
+  nginx:
+    image: ghcr.io/syneido/dev-nginx:latest
+    environment:
+      FPM_ENTRYPOINT: index
+      PHP_FPM_CONTAINER: php-fpm
+      NGINX_PROJECT: local
+      NGINX_HOST: test-api-symfony.fr
+      NGINX_ROOT_DIR: public
+    ports:
+      # HTTP
+      - target: 80
+        published: 80
+        protocol: tcp
+      # HTTPS
+      - target: 443
+        published: 443
+        protocol: tcp
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./:/var/www/
+
+  database:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=test_api_symfony
+      - POSTGRES_USER=test_api_symfony
+      - POSTGRES_PASSWORD=test_api_symfony
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+
+volumes:
+  db_data:

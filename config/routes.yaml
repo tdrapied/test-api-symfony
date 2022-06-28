@@ -1,0 +1,7 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+swagger_ui:
+  path: /doc
+  controller: api_platform.swagger.action.ui

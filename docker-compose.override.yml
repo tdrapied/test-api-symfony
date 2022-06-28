@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  php-fpm:
+    volumes:
+      - ./docker/php/conf.d/php.dev.ini:/usr/local/etc/php/conf.d/php.ini
+      # if you develop on Linux, you may use a bind-mounted host directory instead
+      # - ./var:/srv/var:rw
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      # Change to "debug" mode to enable xdebug
+      XDEBUG_MODE: ${APP_ENV:-off}
+      XDEBUG_CONFIG: >-
+        client_host=host.docker.internal
+        idekey=PHPSTORM
+      # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
+      # Then PHPStorm will use the corresponding path mappings
+      PHP_IDE_CONFIG: serverName=local.test-api-symfony.fr
+
+  build-php:
+    image: ghcr.io/syneido/build-php8.1:latest
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+    volumes:
+      - ./:/app/
