@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     collectionOperations: [
@@ -37,11 +38,11 @@ class Post
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['post:read', 'post:collection:get', 'post:write'])]
+    #[Assert\NotBlank, Assert\Length(min: 6, max: 50), Groups(['post:read', 'post:collection:get', 'post:write'])]
     public string $title;
 
     #[ORM\Column(type: 'text')]
-    #[Groups(['post:read', 'post:write'])]
+    #[Assert\NotBlank, Groups(['post:read', 'post:write'])]
     public string $content;
 
     #[ORM\Column(type: 'datetime_immutable')]
