@@ -28,6 +28,7 @@
         "symfony/security-bundle": "6.1.*",
         "symfony/serializer": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symfony/uid": "6.1.*",
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*"
     },
@@ -83,5 +84,8 @@
             "require": "6.1.*",
             "docker": false
         }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.43"
     }
 }
