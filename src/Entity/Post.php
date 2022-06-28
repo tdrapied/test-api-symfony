@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -28,7 +30,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: [
         'groups' => ['post:read', 'category:read'],
     ],
+    order: ['createdAt' => 'DESC'],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['title' => 'ipartial', 'category' => 'exact'])]
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
