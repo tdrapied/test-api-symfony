@@ -12,9 +12,9 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => ['post:collection:get']]
+            'normalization_context' => ['groups' => ['post:collection:get', 'category:read']],
         ],
-        'post'
+        'post',
     ],
     itemOperations: [
         'get',
@@ -22,11 +22,11 @@ use Symfony\Component\Uid\Uuid;
         'delete',
     ],
     denormalizationContext: [
-        "groups" => ["post:write"]
+        'groups' => ['post:write'],
     ],
     normalizationContext: [
-        "groups" => ["post:read"]
-    ]
+        'groups' => ['post:read', 'category:read'],
+    ],
 )]
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -52,6 +52,11 @@ class Post
     #[ORM\Column(type: 'datetime_immutable')]
     #[Groups(['post:read', 'post:collection:get'])]
     public \DateTimeImmutable $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'posts')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['post:read', 'post:collection:get', 'post:write'])]
+    public Category $category;
 
     public function __construct()
     {
