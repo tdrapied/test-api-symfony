@@ -34,7 +34,7 @@ tasks:
       - task: docker:down
       - task: docker:up
       - task: composer:install
-      # - task: db:reset
+      - task: db:reset
       - task: docker:ps
 
   ci:
